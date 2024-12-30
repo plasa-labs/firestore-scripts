@@ -1,14 +1,14 @@
 import * as path from 'path'
 import * as fs from 'fs/promises'
 
-export interface JsonFileProcessingResult<T> {
-	data: T[]
+export interface JsonFileProcessingResult {
+	data: unknown
 	fileName: string
 }
 
-export async function readJsonsInFolder<T>(
+export async function readJsonsInFolder(
 	folderName: string
-): Promise<JsonFileProcessingResult<T>[]> {
+): Promise<JsonFileProcessingResult[]> {
 	const folderPath = path.join(process.cwd(), 'data', folderName)
 	try {
 		await fs.access(folderPath)
@@ -16,7 +16,7 @@ export async function readJsonsInFolder<T>(
 		const files = await fs.readdir(folderPath)
 		const jsonFiles = files
 
-		const results: JsonFileProcessingResult<T>[] = []
+		const results: JsonFileProcessingResult[] = []
 
 		for (const file of jsonFiles) {
 			const filePath = path.join(folderPath, file)
