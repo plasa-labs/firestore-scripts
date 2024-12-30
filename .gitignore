@@ -1,4 +1,6 @@
 .env
+
 secret
+data
 
 .DS_Store
