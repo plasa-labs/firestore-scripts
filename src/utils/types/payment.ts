@@ -81,7 +81,7 @@ export interface CleanedPayment {
 	money_release_status: string
 	operation_type: string
 	payment_type_id: string
-	point_of_interaction: PointOfInteraction
+	point_of_interaction?: PointOfInteraction
 	refunds: Array<unknown>
 	status: string
 	status_detail: string
