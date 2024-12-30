@@ -1,4 +1,7 @@
 import axios from 'axios'
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 interface PaymentsParams {
 	begin_date?: string
@@ -23,6 +26,6 @@ export async function getPayment(paymentId: string) {
 }
 
 export async function getPayments(params: PaymentsParams) {
-	const response = await api.get('/payments', { params })
+	const response = await api.get('/payments/search', { params })
 	return response.data
 }
