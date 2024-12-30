@@ -64,13 +64,13 @@ async function processAllFollowerFiles(): Promise<void> {
 	console.log(`Starting to process follower files from collection: ${collectionId}`)
 
 	try {
-		const jsonResults = await readJsonsInFolder<InstagramFollower>(collectionId)
+		const jsonResults = await readJsonsInFolder<InstagramFollower[]>(collectionId)
 
 		console.log(`Found ${jsonResults.length} follower files to process.`)
 
 		for (const result of jsonResults) {
 			console.log(`Processing file: ${result.fileName}`)
-			const followers = result.data
+			const followers = result.data as InstagramFollower[]
 			await pushToFirestore(
 				collectionId,
 				followers,

@@ -24,7 +24,7 @@ async function cleanMercadoPagoPayments(): Promise<void> {
 		console.log('Starting to clean MercadoPago payments...')
 
 		// Read all payment files
-		const results = await readJsonsInFolder(inputFolder)
+		const results = await readJsonsInFolder<MercadoPagoPayment>(inputFolder)
 
 		// Filter payments based on minimum ID
 		const validPayments = results
