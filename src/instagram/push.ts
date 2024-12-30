@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv'
 import * as path from 'path'
 import * as fs from 'fs/promises'
-import { pushToFirestore, closeFirebaseConnection } from '../../utils/firestore'
-import { readJsonsInFolder } from '../../utils/fs/read-jsons'
+import { pushToFirestore, closeFirebaseConnection } from '../utils/firestore'
+import { readJsonsInFolder } from '../utils/fs/read-jsons'
 
 dotenv.config()
 
