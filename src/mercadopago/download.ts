@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv'
-import { fetchAllPayments } from './payments'
+import { fetchAllPayments } from '../utils/mercadopago/payments'
 import { writeJsonsToFolder } from '../utils/fs/write-jsons'
 import { MercadoPagoPayment } from '../utils/types/payment'
 

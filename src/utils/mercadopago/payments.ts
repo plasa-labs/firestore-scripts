@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
 import { getPayments } from './api'
-import { MercadoPagoPayment } from '../utils/types/payment'
+import { MercadoPagoPayment } from '../types/payment'
 
 dotenv.config()
 
