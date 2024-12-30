@@ -42,3 +42,56 @@ export interface MercadoPagoPayment {
 	card: Record<string, unknown> | null
 	[key: string]: unknown
 }
+
+export interface ChargeDetail {
+	amounts: {
+		original: number
+		refunded: number
+	}
+	name: string
+	type: string
+}
+
+export interface PointOfInteraction {
+	business_info: {
+		branch: string
+		sub_unit: string
+		unit: string
+	}
+	type: string
+}
+
+export interface CleanedPayment {
+	captured: boolean
+	charges_details: Array<ChargeDetail>
+	collector_id: number
+	currency_id: string
+	date_approved: string
+	date_created: string
+	date_last_updated: string
+	description: string
+	fee_details: Array<{
+		amount: number
+		fee_payer: string
+		type: string
+	}>
+	id: number
+	live_mode: boolean
+	money_release_date: string
+	money_release_status: string
+	operation_type: string
+	payment_type_id: string
+	point_of_interaction: PointOfInteraction
+	refunds: Array<unknown>
+	status: string
+	status_detail: string
+	taxes_amount: number
+	transaction_amount: number
+	transaction_amount_refunded: number
+	transaction_details: {
+		installment_amount: number
+		net_received_amount: number
+		overpaid_amount: number
+		total_paid_amount: number
+	}
+}
