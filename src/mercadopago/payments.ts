@@ -1,16 +1,11 @@
 import * as dotenv from 'dotenv'
 import { getPayments } from './api'
+import { MercadoPagoPayment } from '../utils/types/payment'
 
 dotenv.config()
 
 if (!process.env.MP_FETCH_START_DATE) {
 	throw new Error('MP_FETCH_START_DATE environment variable is not set')
-}
-
-interface MercadoPagoPayment {
-	id: number
-	date_created: string
-	// Add other payment properties as needed
 }
 
 export async function fetchAllPayments(): Promise<MercadoPagoPayment[]> {
