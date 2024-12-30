@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv'
 import * as path from 'path'
 import * as fs from 'fs/promises'
 import { pushToFirestore, closeFirebaseConnection } from '../../utils/firestore'
+import { readJsonsInFolder } from '../../utils/fs/read-jsons'
 
 dotenv.config()
 
@@ -60,24 +61,41 @@ async function processFollowersFile(filePath: string): Promise<{ added: number }
 }
 
 async function processAllFollowerFiles(): Promise<void> {
-	const folderPath = path.join(process.cwd(), 'data', collectionId)
-	console.log(`Starting to process follower files from: ${folderPath}`)
+	console.log(`Starting to process follower files from collection: ${collectionId}`)
 
 	try {
-		await fs.access(folderPath)
+		const jsonResults = await readJsonsInFolder<InstagramFollower>(collectionId)
 
-		const files = await fs.readdir(folderPath)
-		const jsonFiles = files.filter(file =>
-			file.startsWith('followers_') && file.endsWith('.json')
-		)
+		console.log(`Found ${jsonResults.length} follower files to process.`)
 
-		console.log(`Found ${jsonFiles.length} follower files to process.`)
+		for (const result of jsonResults) {
+			console.log(`Processing file: ${result.fileName}`)
+			const followers = result.data
+			await pushToFirestore(
+				collectionId,
+				followers,
+				(follower) => '@' + follower.string_list_data[0].value,
+				(follower) => ({
+					username: follower.string_list_data[0].value,
+					timestamp: follower.string_list_data[0].timestamp,
+					real: true
+				}),
+				{
+					batchSize: 500,
+					onBatchComplete: (size) => {
+						console.log(`Batch of ${size} followers committed from ${result.fileName}`)
+					}
+				}
+			)
 
-		for (const file of jsonFiles) {
-			const filePath = path.join(folderPath, file)
-			console.log(`Processing file: ${file}`)
-			const { added } = await processFollowersFile(filePath)
+			const added = followers.length
 			grandTotalFollowers += added
+
+			console.log(
+				`File Summary: ${result.fileName}\n` +
+				`  Total followers added: ${added}\n` +
+				`  Total processed: ${added}`
+			)
 		}
 
 		console.log(
